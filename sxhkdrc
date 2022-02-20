@@ -1,0 +1,125 @@
+# wm independent hotkeys
+
+# terminal emulator
+super + Return
+  wezterm
+
+# program launcher
+super + d
+    rofi -matching fuzzy -show combi
+
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# brightness
+XF86MonBrightness{Up,Down}
+	brightnessctl s {+5%,5%-}
+
+# pulseaudio volume
+XF86Audio{Raise,Lower}Volume
+	pamixer -{i,d} 2
+
+XF86AudioMute
+	pamixer -t
+
+# pulsemixer
+super + p
+	pavucontrol
+
+# screenshots with scrot/xclip
+{_, shift + }Print
+	scrot {_,-s} -e 'xclip -selection clipboard -t image/png -i $f'
+
+#
+# awesome hotkeys
+#
+#
+super + t
+  echo "toggle_scratchpad()" | awesome-client
+
+# quit/restart
+super + shift + r
+	echo "awesome.restart()" | awesome-client
+
+# close and kill
+super + {_, shift + } q
+	echo "client.focus:kill()" | awesome-client
+
+# set the client state
+super + {s,w,f,shift + f}
+	echo "change_client_state('{stacking,default,maximized,fullscreen}')" | awesome-client
+
+# reset the client color
+super + c
+	echo "require('util.client_colors').update()" | awesome-client
+
+# focus/swap clients
+super + {_,shift + }{j,k,h,l}
+	echo "require('awful').client.{focus,swap}.bydirection('{down,up,left,right}')" | awesome-client
+
+# focus the next/previous tag
+alt + shift +  {Left,Right} 
+	echo "require('awful').tag.view{prev,next}()" | awesome-client
+
+# focus or send to the given desktop
+super + {1-9,0}{_, + ctrl, + shift}
+	echo "awful = require('awful') tag = awful.screen.focused().tags[{1-9,10}] {tag:view_only(),awful.tag.viewtoggle(tag),client.focus:move_to_tag(tag)}" | awesome-client
+
+# resize master
+super + ctrl + {h,l}
+	echo "require('awful').tag.incmwfact({-,_}0.05)" | awesome-client
+
+# previous client
+super + Tab
+	echo "awful.client.focus.history.previous()" | awesome-client
+
+# next layout
+super + o
+	echo "awful.layout.inc(1)" | awesome-client
+
+# focus the next/previous screen
+super + ctrl + {j,k}
+	echo "awful.screen.focus_relative({_,-}1)" | awesome-client
+
+super + shift + c 
+  owo --screenshot --clipboard && notify-send 'Copied to clipboard!' 
+
+super + shift + x
+    betterlockscreen -l
+
+super + space 
+	playerctl  --player=spotify play-pause
+
+super + period
+  playerctl --player=spotify next
+
+super + comma
+	playerctl --player=spotify previous
+
+XF86AudioNext
+  playerctl next
+
+XF86AudioPrev
+  playerctl previous
+
+XF86AudioPlay 
+  playerctl play-pause
+
+super + a
+   echo "revelation = require('revelation') revelation()" |awesome-client
+
+super + shift + Left
+  echo "awful.client.moveresize(0,0,-10,0)" |awesome-client 
+
+
+super + shift + Right
+  echo "awful.client.moveresize(0,0,10,0)" |awesome-client 
+
+
+super + shift + Up
+  echo "awful.client.moveresize(0,0,0,-10)" |awesome-client 
+
+super + shift + Down
+  echo "awful.client.moveresize(0,0,0,10)" |awesome-client 
